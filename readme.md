@@ -1,0 +1,2 @@
+This repo is to use llm-axe to provide internet search capabilities to chat models listening on a certain port
+It is only meant to be run locally so llm-axe will be listening on one port while local model will be listening on another
