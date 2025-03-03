@@ -23,7 +23,7 @@ class MyCustomLLM():
             temperature (float, optional): The temperature of the LLM. Defaults to 0.8.
         """
         data = {
-            "model": "qwen2.5-coder-3b-instruct", # ADD THE NAME OF YOUR MODEL HERE
+            "model": "deepseek-r1-distill-qwen-7b", # ADD THE NAME OF YOUR MODEL HERE
             "messages": prompts,
             "temperature": 0.7,
             "max_tokens": -1,
@@ -134,12 +134,12 @@ PORT = 1235
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
     server.bind((HOST, PORT))
     server.listen()
-    conn, addr = server.accept()  # Wait for client connection [1][4]
+    conn, addr = server.accept()
     
     with conn:
         while True:
-            data = conn.recv(1024)  # Receive max 1024 bytes [3][5]
-            if not data: break      # Client disconnected [4]
+            data = conn.recv(1024)
+            if not data: break
             
             # Process received data
             decoded = data.decode('utf-8')
