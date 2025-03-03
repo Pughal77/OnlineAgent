@@ -127,9 +127,20 @@ for chunk in res:
 # ------------------------------------------------------------------------------
 # setting up server to listen on port 1235
 
+HOST = '127.0.0.1'  # Localhost
+PORT = 1235 
 
-# server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# HOST = '127.0.0.1'  # Localhost
-# PORT = 1235 
-# server_socket.bind((HOST, PORT)) 
-# server_socket.listen(1)
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
+    server.bind((HOST, PORT))
+    server.listen()
+    conn, addr = server.accept()  # Wait for client connection [1][4]
+    
+    with conn:
+        while True:
+            data = conn.recv(1024)  # Receive max 1024 bytes [3][5]
+            if not data: break      # Client disconnected [4]
+            
+            # Process received data
+            decoded = data.decode('utf-8')
+            print(f"Received: {decoded}")
