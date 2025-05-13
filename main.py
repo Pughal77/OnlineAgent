@@ -1,7 +1,6 @@
 import json
 from llm_axe import Agent, AgentType, make_prompt, llm_has_ask
 import requests
-import socket
 # here it is better to use requests module for sending synchronous http requests as we would want our model to recieve requests in order when it comes to the same chat 
 
 
@@ -115,32 +114,10 @@ class MyCustomAgent(Agent):
 
 # ------------------------------------------------------------------------------
 # example usage:
+
 llm = MyCustomLLM()
 agent = MyCustomAgent(llm, agent_type=AgentType.GENERIC_RESPONDER, stream=True)
 res = agent.ask("What is 1 + 4?")
 
 for chunk in res:
     print(chunk, end="", flush=True)
-
-
-
-# ------------------------------------------------------------------------------
-# setting up server to listen on port 1235
-
-HOST = '127.0.0.1'  # Localhost
-PORT = 1235 
-
-
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
-    server.bind((HOST, PORT))
-    server.listen()
-    conn, addr = server.accept()
-    
-    with conn:
-        while True:
-            data = conn.recv(1024)
-            if not data: break
-            
-            # Process received data
-            decoded = data.decode('utf-8')
-            print(f"Received: {decoded}")
